@@ -2,7 +2,7 @@ import { Box, Button, Container, Heading, Textarea } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Schema, z } from 'zod';
+import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ControlledInput } from '../components/Input/ControledInput';
 

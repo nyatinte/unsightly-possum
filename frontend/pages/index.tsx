@@ -4,24 +4,31 @@ import Head from 'next/head';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ControlledInput } from '../components/Input/ControledInput';
+import { ControlledInput } from '../components/Input/ControlledInput';
 
-const schema = z.object({
-  title: z.string().min(1).max(100),
-  content: z.string().min(1),
-  author: z.string().min(1).max(10),
+export const schema = z.object({
+  title: z
+    .string()
+    .min(1, 'タイトルを入力してください')
+    .max(50, 'タイトルは50文字以内にしてください'),
+  content: z.string().min(1, '内容を入力してください'),
+  author: z
+    .string()
+    .min(1, '名前を入力してください')
+    .max(50, '名前は50文字以内にしてください'),
 });
 
+export type FormValues = z.infer<typeof schema>;
 const Page: NextPage = () => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<z.infer<typeof schema>>({
+  } = useForm<FormValues>({
     resolver: zodResolver(schema),
   });
-  const onSubmit: SubmitHandler<z.infer<typeof schema>> = async (form) => {
+  const onSubmit: SubmitHandler<FormValues> = async (form) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     alert(JSON.stringify(form));
     reset();
@@ -33,8 +40,8 @@ const Page: NextPage = () => {
         <title>お知らせ配信ページ</title>
       </Head>
 
-      <Box as='form' onSubmit={handleSubmit(onSubmit)}>
-        <Heading my='8'>お知らせ配信ページ</Heading>
+      <Heading my='8'>お知らせ配信ページ</Heading>
+      <Box as='form' onSubmit={handleSubmit(onSubmit)} p='10' boxShadow='md'>
         <ControlledInput
           label='著者'
           errors={errors}

@@ -1,6 +1,14 @@
 {
 	"name": "お知らせプロジェクト",
-	"image": "mcr.microsoft.com/devcontainers/typescript-node:16-bullseye"
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:16-bullseye",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"oderwat.indent-rainbow",
+				"GitHub.copilot"
+			]
+		}
+	}
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},

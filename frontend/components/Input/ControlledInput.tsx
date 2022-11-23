@@ -14,6 +14,7 @@ import { FieldErrorsImpl, Ref } from 'react-hook-form';
 export type ControlledInputProps = {
   label: string;
   errors: Partial<FieldErrorsImpl<Record<string, unknown>>>;
+  name: string;
   ref: Ref;
   isRequired?: boolean;
   formControlProps?: Omit<FormControlProps, 'isInvalid' | 'isRequired'>;
@@ -26,7 +27,8 @@ export const ControlledInput = forwardRef<ControlledInputProps, 'input'>(
     {
       label,
       errors,
-      isRequired = false,
+      name,
+      isRequired,
       formControlProps,
       formLabelProps,
       formErrorMessageProps,
@@ -36,14 +38,14 @@ export const ControlledInput = forwardRef<ControlledInputProps, 'input'>(
   ) => {
     return (
       <FormControl
-        isInvalid={Boolean(errors.name)}
-        isRequired
+        isInvalid={Boolean(errors[name])}
+        isRequired={isRequired}
         {...formControlProps}
       >
         <FormLabel {...formLabelProps}>{label}</FormLabel>
-        <Input {...rest} ref={ref} />
+        <Input name={name} {...rest} ref={ref} />
         <FormErrorMessage {...formErrorMessageProps}>
-          {errors.name && errors.name.message}
+          {errors[name]?.message}
         </FormErrorMessage>
       </FormControl>
     );
